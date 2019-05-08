@@ -152,7 +152,7 @@ class ArgumentConverter(commands.Converter):
         # This essentialy is a rip-off of the _actual_conversion() method in
         # discord.py's ext/commands/core.py file
         if converter is bool:
-            return _convert_to_bool(value)
+            return self._convert_to_bool(value)
         
         try:
             module = converter.__module__
