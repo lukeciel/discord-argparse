@@ -7,7 +7,7 @@ Provides support for arbitrarily ordered arguments in commands for the
 ```python
 param_converter = ArgumentConverter(
     turns = RequiredArgument(
-        int,
+        int, # follows the rules of a converter in discord.py
         doc="The number of turns this quiz has.",
         default=10
     ),
@@ -21,11 +21,6 @@ param_converter = ArgumentConverter(
     )
 )
 
-
-# The command below can be called by ...
-# !quiz pokemon
-# !quiz pokemon turns=12
-# !quiz pokemon images=false turns=12
 
 @bot.command()
 async def quiz(ctx, name:str, *, params:param_converter=param_converter.defaults()):
@@ -44,12 +39,27 @@ async def quiz_error(ctx, error):
         )
 ```
 
+On your discord server, the commands can be invoked like this:
+
+```
+!quiz pokemon
+    → will raise a MissingRequiredArgument exception
+
+!quiz pokemon turns=2
+    → args["images"] will be True
+
+!quiz pokemon turns=2 images=false
+```
+
 
 Installation
 ------------
 
-Simply drop the source file anywhere in your project. Installation via `pip` is
-not available at the moment.
+Installation is available via pip:
+
+```
+pip install discord_argparse
+```
 
 
 Documentation
