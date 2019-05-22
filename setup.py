@@ -2,7 +2,7 @@ import re
 from setuptools import setup
 
 requirements = [
-    "discord>=1.0.0"
+    "discord.py>=1.0.0"
 ]
 
 version = ""
