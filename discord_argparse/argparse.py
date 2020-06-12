@@ -27,6 +27,7 @@ import shlex
 import inspect
 from discord.ext import commands
 from discord.ext.commands import converter as converters
+from discord.ext.commands.core import _convert_to_bool
 from .errors import *
 
 __all__ = ["OptionalArgument", "RequiredArgument", "ArgumentConverter"]
@@ -129,28 +130,15 @@ class ArgumentConverter(commands.Converter):
         """
         self.arguments = arguments
     
-    def _convert_to_bool(self, value):
-        """ Converts a string value to bool.
-
-        Raises :class:`discord.ext.commands.ConversionError` if the conversion
-        fails.
-        """
-        lowered = value.lower()
-        if lowered in ("ja", "yes", "y", "true", "t", "1", "enable", "on"):
-            return True
-        elif lowered in ("nein", "no", "false", "f", "0", "disable", "off"):
-            return False
-        raise commands.ConversionError(value, None)
-    
     async def _convert_value(self, ctx, converter, value):
         """ Converts the given value with the supplied converter.
 
-        Raises a :class:`discord.commands.ConversionError` if the conversion fails.
+        Raises a :class:`discord.ext.commands.BadArgument` if the conversion fails.
         """
-        # This essentialy is a rip-off of the _actual_conversion() method in
-        # discord.py's ext/commands/core.py file
+        # Use the _convert_to_bool function found in the source file
+        # discord/ext/commands/core.py
         if converter is bool:
-            return self._convert_to_bool(value)
+            return _convert_to_bool(value)
         
         try:
             module = converter.__module__
