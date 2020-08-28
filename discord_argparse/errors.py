@@ -29,14 +29,28 @@ __all__ = ["InvalidArgumentValueError", "UnknownArgumentError"]
 
 class InvalidArgumentValueError(commands.BadArgument):
     """ Exception raised when an argument cannot be converted with a
-    converter. """
+    converter.
 
-    def __init__(self, name, value):
+    Attributes
+    ------------
+    name: str
+        Name of the keyword argument that failed conversion.
+    value: Any
+        Value of passed name argument.
+    original: :exc:`Exception`
+        The original exception that was raised. You can also get this via
+        the ``__cause__`` attribute. Used so we can display specific info on
+        why the argument is invalid.
+    """
+
+    def __init__(self, name, value, original):
         super().__init__(
-            "Invalid argument value passed for {0}: {1}".format(name, value)
+            "Invalid argument value passed for {0}: {1}."
+            "Exception: {2}".format(name, value, original)
         )
         self.name = name
         self.value = value
+        self.original = original
 
 
 class UnknownArgumentError(commands.BadArgument):

@@ -201,8 +201,9 @@ class ArgumentConverter(commands.Converter):
                     value
                 )
                 converted[name] = converted_value
-            except commands.ConversionError:
-                raise InvalidArgumentValueError(name, value)
+            except commands.ConversionError as e:
+                e = getattr(e, "original", e)
+                raise InvalidArgumentValueError(name, value, e) from e
             except Exception as e:
                 raise commands.ConversionError(self, e) from e
         
