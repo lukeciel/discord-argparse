@@ -147,7 +147,7 @@ class ArgumentConverter(commands.Converter):
 
         Raises a :class:`discord.commands.ConversionError` if the conversion fails.
         """
-        # This essentialy is a rip-off of the _actual_conversion() method in
+        # This essentially is a rip-off of the _actual_conversion() method in
         # discord.py's ext/commands/core.py file
         if converter is bool:
             return self._convert_to_bool(value)
@@ -157,9 +157,9 @@ class ArgumentConverter(commands.Converter):
         except ValueError:
             ...
         else:
-            if module is not None and (module.startswith("discord.")
-                    and not module.endswith("converter")):
-                converter = getattr(converters, converter.__name__  + "Converter")
+            if module is not None:
+                if module.startswith("discord.") and not module.endswith("converter"):
+                    converter = getattr(converters, converter.__name__ + "Converter")
         
         try:
             if inspect.isclass(converter):
