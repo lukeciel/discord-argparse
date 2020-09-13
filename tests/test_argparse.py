@@ -2,6 +2,7 @@ import pytest
 import discord_argparse as da
 from discord.ext import commands
 
+
 def custom_converter(s):
     return int(s)
 
@@ -9,10 +10,10 @@ def custom_converter(s):
 @pytest.mark.asyncio
 async def test_argparse():
     converter = da.ArgumentConverter(
-        str1 = da.RequiredArgument(str),
-        int1 = da.OptionalArgument(int, default=1),
-        bool1 = da.OptionalArgument(bool),
-        int2 = da.OptionalArgument(custom_converter)
+        str1=da.RequiredArgument(str),
+        int1=da.OptionalArgument(int, default=1),
+        bool1=da.OptionalArgument(bool),
+        int2=da.OptionalArgument(custom_converter)
     )
 
     with pytest.raises(da.InvalidArgumentValueError):
@@ -39,7 +40,7 @@ async def test_argparse():
     args = await converter.convert(None, "str1=test int1=12 bool1=true int2=-1")
     assert(args["str1"] == "test")
     assert(args["int1"] == 12)
-    assert(args["bool1"] == True)
+    assert(args["bool1"] is True)
     assert(args["int2"] == -1)
 
     args = await converter.convert(None, "str1=test")
